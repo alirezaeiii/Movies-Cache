@@ -25,7 +25,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
     @Inject
     lateinit var adapter: HomeAdapter
@@ -54,13 +54,18 @@ class HomeFragment: Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun handleResults() {
         lifecycleScope.launch {
             viewModel.stateFlow.collect {
                 when (it) {
                     is Resource.Success -> handleResults(it.data)
                     is Resource.Error -> handleError(it.message)
-                    else -> Timber.d("Loading")
+                    is Resource.Loading -> Timber.d("Loading")
                 }
             }
         }
@@ -75,7 +80,7 @@ class HomeFragment: Fragment() {
         if (movies.isEmpty()) {
             handleError()
         } else {
-            adapter.setList(movies)
+            adapter.submitList(movies)
         }
     }
 
@@ -114,8 +119,7 @@ class HomeFragment: Fragment() {
                 binding.networkStatusLayout.setBackgroundColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.colorStatusNotConnected,
-                        null
+                        R.color.colorStatusNotConnected, null
                     )
                 )
                 binding.swipeRefreshLayout.isRefreshing = false
