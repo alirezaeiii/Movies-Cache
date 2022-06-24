@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -43,10 +42,10 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        binding.apply {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
         }
+        handleResults()
         return binding.root
     }
 
@@ -57,7 +56,6 @@ class HomeFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        handleResults()
         handleNetwork()
     }
 
@@ -122,7 +120,7 @@ class HomeFragment: Fragment() {
                 )
                 binding.swipeRefreshLayout.isRefreshing = false
             } else {
-                handleResults()
+                viewModel.refresh()
                 binding.textViewNetworkStatus.text = getString(R.string.text_connectivity)
                 binding.networkStatusLayout.setBackgroundColor(
                     ResourcesCompat.getColor(
