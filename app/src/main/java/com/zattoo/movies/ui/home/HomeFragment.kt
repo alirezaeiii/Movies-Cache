@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.zattoo.movies.R
+import com.zattoo.movies.BR
 import com.zattoo.movies.data.home.Movie
 import com.zattoo.movies.databinding.FragmentHomeBinding
 import com.zattoo.movies.utils.NetworkUtils
@@ -20,6 +21,7 @@ import com.zattoo.movies.viewmodel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,30 +45,33 @@ class HomeFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            setVariable(BR.vm, viewModel)
             lifecycleOwner = viewLifecycleOwner
         }
         handleResults()
+        handleNetwork()
+        initUiElements()
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initUiElements()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        handleNetwork()
+    private fun handleResults() {
+        lifecycleScope.launch {
+            viewModel.stateFlow.collect {
+                when (it) {
+                    is Resource.Success -> handleResults(it.data)
+                    is Resource.Error -> handleError(it.message)
+                    else -> Timber.d("Loading")
+                }
+            }
+        }
     }
 
     private fun initUiElements() {
         adapter = HomeAdapter()
         binding.recyclerView.adapter = adapter
-        binding.swipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
     }
 
     private fun handleResults(movies: List<Movie>) {
-        showLoading(false)
         if (movies.isEmpty()) {
             handleError()
         } else {
@@ -83,7 +88,6 @@ class HomeFragment: Fragment() {
     }
 
     private fun handleError(isEmptyList: Boolean, error: String) {
-        showLoading(false)
         if (isEmptyList) {
             val errorMessage = getString(R.string.empty_list)
             showEmptyList(errorMessage)
@@ -102,12 +106,8 @@ class HomeFragment: Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.swipeRefreshLayout.isRefreshing = isLoading
-    }
-
     private fun handleNetwork() {
-        networkUtils.getNetworkLiveData().observe(this) { isConnected: Boolean ->
+        networkUtils.getNetworkLiveData().observe(viewLifecycleOwner) { isConnected: Boolean ->
             if (!isConnected) {
                 binding.textViewNetworkStatus.text = getString(R.string.text_no_connectivity)
                 binding.networkStatusLayout.visibility = View.VISIBLE
@@ -139,19 +139,6 @@ class HomeFragment: Fragment() {
             }
         }
     }
-
-    private fun handleResults() {
-        lifecycleScope.launch {
-            viewModel.stateFlow.collect {
-                when (it) {
-                    is Resource.Success -> handleResults(it.data)
-                    is Resource.Error -> handleError(it.message)
-                    is Resource.Loading -> showLoading(true)
-                }
-            }
-        }
-    }
-
 }
 
 private const val ANIMATION_DURATION = 1000

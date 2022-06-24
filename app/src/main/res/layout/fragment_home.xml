@@ -3,10 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.zattoo.movies.viewmodel.MovieViewModel" />
+    </data>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:onRefreshListener="@{()->vm.refresh()}"
+        app:refreshing="@{vm.stateFlow}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

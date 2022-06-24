@@ -2,6 +2,7 @@ package com.zattoo.movies.utils
 
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 
 object BindingAdapter {
@@ -12,5 +13,11 @@ object BindingAdapter {
             Glide.with(view.context).load(url)
                 .into(view)
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("refreshing")
+    fun <T> bindSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, viewState: Resource<T>?) {
+        swipeRefreshLayout.isRefreshing = viewState is Resource.Loading
     }
 }
