@@ -10,8 +10,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     var listMovie: List<Movie> = emptyList()
 
-    fun setList(fragment: HomeFragment) {
-        listMovie = fragment.movies
+    fun setList(movies: List<Movie>) {
+        listMovie = movies
         notifyDataSetChanged()
     }
 
