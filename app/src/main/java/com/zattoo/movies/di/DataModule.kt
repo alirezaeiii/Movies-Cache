@@ -4,10 +4,13 @@ import com.zattoo.movies.data.MovieService
 import com.zattoo.movies.ui.home.HomeAdapter
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class DataModule {
     @Singleton
     @Provides

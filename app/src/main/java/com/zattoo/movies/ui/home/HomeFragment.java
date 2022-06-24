@@ -27,8 +27,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import retrofit2.Response;
 
+@AndroidEntryPoint
 public class HomeFragment extends Fragment {
 
     final static int ANIMATION_DURATION = 1000;
@@ -52,13 +54,6 @@ public class HomeFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         binding.setLifecycleOwner(this);
         return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MoviesApp) getContext().getApplicationContext()).getApplicationComponent()
-                .inject(this);
     }
 
     @Override

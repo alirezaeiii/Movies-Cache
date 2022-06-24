@@ -1,7 +1,7 @@
 object Versions {
     //Core
     const val kotlin = "1.6.21"
-    const val dagger = "2.40"
+    const val hilt = "2.40"
     const val navigation = "2.4.2"
     const val retrofit = "2.9.0"
     const val okhttp = "4.9.0"
@@ -57,9 +57,9 @@ object Deps {
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
 
-    //Dagger
-    const val dagger_core = "com.google.dagger:dagger:${Versions.dagger}"
-    const val dagger_compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+    //Hilt
+    const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+    const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 
     //Networking
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"

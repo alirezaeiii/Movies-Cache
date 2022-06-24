@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -50,8 +51,8 @@ dependencies {
     implementation Deps.navigationFragment
     implementation Deps.navigationUi
     implementation Deps.glide
-    implementation Deps.dagger_core
-    kapt Deps.dagger_compiler
+    implementation Deps.hilt
+    kapt Deps.hilt_compiler
     implementation Deps.retrofit
     implementation Deps.retrofitCoroutines
     implementation Deps.retrofitMoshi
