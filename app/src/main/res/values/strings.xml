@@ -8,4 +8,6 @@
     <string name="not_found_error_message">Resource not found</string>
     <string name="internal_server_error_message">Internal server error</string>
     <string name="general_error_message">There is a problem. Please try again later</string>
+    <string name="available">Available</string>
+    <string name="not_available">Sold out</string>
 </resources>

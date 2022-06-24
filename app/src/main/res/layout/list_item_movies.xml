@@ -27,15 +27,15 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/movies_imageView"
                 style="@style/MoviesImageView"
-                android:layout_width="82sp"
-                android:layout_height="82sp"
+                android:layout_width="@dimen/movie_image_size"
+                android:layout_height="@dimen/movie_image_size"
                 android:contentDescription="@string/text_movies_header"
                 android:src="@mipmap/ic_launcher_foreground"
                 android:transitionName="photo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:loadImage="@{movies.image.component1()}"
+                app:loadImage="@{movies.image.url}"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -64,7 +64,7 @@
                 style="@style/MoviesPriceAvailability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{Converter.priceAndAvailabilityToString(movies.price.value + movies.price.currency.component1(), movies.availability)}'
+                android:text='@{Converter.priceAndAvailabilityToString(movies.price.value + movies.price.currency.symbol, movies.availability, context)}'
                 app:layout_constraintStart_toEndOf="@+id/movies_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/movies_subtitle"
                 tools:text="@tools:sample/full_names" />

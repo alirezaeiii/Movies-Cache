@@ -2,9 +2,12 @@
 
 package com.zattoo.movies.utils
 
-fun priceAndAvailabilityToString(price: String, isAvailable: Boolean): String {
+import android.content.Context
+import com.zattoo.movies.R
+
+fun priceAndAvailabilityToString(price: String, isAvailable: Boolean, context: Context): String {
     return when (isAvailable) {
-        true -> String.format("%s %s", price, "Available")
-        false -> String.format("%s %s", price, "Sold out")
+        true -> String.format("%s %s", price, context.getString(R.string.available))
+        false -> String.format("%s %s", price, context.getString(R.string.not_available))
     }
 }

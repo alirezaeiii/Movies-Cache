@@ -4,4 +4,6 @@
     <dimen name="dimen_6">6dp</dimen>
     <dimen name="dimen_8">8dp</dimen>
     <dimen name="dimen_16">16dp</dimen>
+
+    <dimen name="movie_image_size">82dp</dimen>
 </resources>
