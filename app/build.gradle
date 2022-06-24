@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdk AppMetaData.compileSdkVersion
+
+    defaultConfig {
+        applicationId AppMetaData.id
+        minSdk AppMetaData.minSdkVersion
+        targetSdk AppMetaData.targetSdkVersion
+        versionCode AppMetaData.versionCode
+        versionName AppMetaData.versionName
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    implementation Deps.kotlin
+    implementation Deps.androidxCore
+    implementation Deps.appCompat
+    implementation Deps.material
+    implementation Deps.constraint
+    implementation Deps.swiperefresh
+    implementation Deps.navigationFragment
+    implementation Deps.navigationUi
+    implementation Deps.glide
+    implementation Deps.dagger_core
+    kapt Deps.dagger_compiler
+    implementation Deps.retrofit
+    implementation Deps.retrofitCoroutines
+    implementation Deps.retrofitMoshi
+    implementation Deps.okhttpInterceptor
+    implementation Deps.moshi
+    implementation Deps.moshiKotlin
+    implementation Deps.coroutinesCore
+    implementation Deps.coroutinesAndroid
+    implementation Deps.liveData
+    implementation Deps.viewmodel
+    implementation Deps.multidex
+    implementation Deps.timber
+    implementation Deps.espressoIdlingResource
+
+    testImplementation Deps.jUnit
+    testImplementation Deps.mockitoKotlin
+    testImplementation Deps.mockitoCore
+    testImplementation Deps.mockitoInline
+    testImplementation Deps.coreTesting
+    testImplementation Deps.assertJ
+    testImplementation Deps.coroutinesTest
+
+    androidTestImplementation Deps.androidxJunit
+    androidTestImplementation Deps.espresso
+}

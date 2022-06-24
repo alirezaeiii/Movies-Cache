@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey">#424242</color>
+
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/black</color>
+    <color name="windowBackground">#F3F3F3</color>
+    <color name="colorAccent">#00838F</color>
+
+    <color name="cardViewColor">@color/grey</color>
+
+    <color name="textColor">@color/white</color>
+    <color name="toolbarTextColor">@color/black</color>
+    <color name="toolbarColor">#ffa500</color>
+
+    <color name="colorStatusConnected">#43A047</color>
+    <color name="colorStatusNotConnected">#D32F2F</color>
+
+    <color name="ic_launcher_background">@color/white</color>
+</resources>

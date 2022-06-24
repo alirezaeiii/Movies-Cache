@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Zattoo</string>
+    <string name="text_no_connectivity">No internet connection</string>
+    <string name="text_movies_header">Movies Header</string>
+    <string name="text_connectivity">Connected</string>
+    <string name="forbidden_error_message">Access to resource is forbidden</string>
+    <string name="empty_list">No data</string>
+    <string name="not_found_error_message">Resource not found</string>
+    <string name="internal_server_error_message">Internal server error</string>
+    <string name="general_error_message">There is a problem. Please try again later</string>
+</resources>
