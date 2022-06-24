@@ -16,6 +16,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,7 +48,16 @@ class MovieRepositoryImpl @Inject constructor(
                 )
             }
         } catch (t: Throwable) {
-            emit(Resource.Error(context.getString(R.string.general_error_message)))
+            if (t is HttpException) {
+                when (t.code()) {
+                    403 -> emit(Resource.Error(context.getString(R.string.forbidden_error_message)))
+                    404 -> emit(Resource.Error(context.getString(R.string.not_found_error_message)))
+                    500 -> emit(Resource.Error(context.getString(R.string.internal_server_error_message)))
+                    else -> emit(Resource.Error(context.getString(R.string.general_error_message)))
+                }
+            } else {
+                emit(Resource.Error(context.getString(R.string.general_error_message)))
+            }
         }
     }.flowOn(ioDispatcher)
 }
