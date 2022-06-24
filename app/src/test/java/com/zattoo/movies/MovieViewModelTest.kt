@@ -6,15 +6,14 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.zattoo.movies.data.MovieListEntity
 import com.zattoo.movies.data.MovieListOffers
 import com.zattoo.movies.data.MovieService
-import com.zattoo.movies.data.home.Movie
 import com.zattoo.movies.repository.MovieRepositoryImpl
 import com.zattoo.movies.usecase.GetMoviesUseCase
 import com.zattoo.movies.utils.Resource
+import com.zattoo.movies.viewmodel.MovieViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
-import org.junit.Assert.assertEquals
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -26,7 +25,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class GetMoviesUseCaseTest {
+class MovieViewModelTest {
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -50,12 +49,16 @@ class GetMoviesUseCaseTest {
                     emptyList()
                 )
             )
-
-            val useCase = getMoviesUseCase()
-
-            assertEquals(Resource.Loading, useCase.invoke().first())
-            assertEquals(Resource.Success<List<Movie>>(emptyList()), useCase.invoke().last())
         }
+        testCoroutineRule.pauseDispatcher()
+
+        val viewModel = getMovieViewModel()
+
+        assertThat(viewModel.stateFlow.value, `is`(Resource.Loading))
+
+        testCoroutineRule.resumeDispatcher()
+
+        assertThat(viewModel.stateFlow.value, `is`(Resource.Success(emptyList())))
     }
 
     @Test
@@ -65,12 +68,16 @@ class GetMoviesUseCaseTest {
 
         testCoroutineRule.runBlockingTest {
             whenever(movieService.fetchMovieList()).thenThrow(RuntimeException(""))
-
-            val useCase = getMoviesUseCase()
-
-            assertEquals(Resource.Loading, useCase.invoke().first())
-            assertEquals(Resource.Error(errorMsg), useCase.invoke().last())
         }
+        testCoroutineRule.pauseDispatcher()
+
+        val viewModel = getMovieViewModel()
+
+        assertThat(viewModel.stateFlow.value, `is`(Resource.Loading))
+
+        testCoroutineRule.resumeDispatcher()
+
+        assertThat(viewModel.stateFlow.value, `is`(Resource.Error(errorMsg)))
     }
 
     @Test
@@ -80,16 +87,21 @@ class GetMoviesUseCaseTest {
 
         testCoroutineRule.runBlockingTest {
             whenever(movieService.fetchMovieListOffers()).thenThrow(RuntimeException(""))
-
-            val useCase = getMoviesUseCase()
-
-            assertEquals(Resource.Loading, useCase.invoke().first())
-            assertEquals(Resource.Error(errorMsg), useCase.invoke().last())
         }
+        testCoroutineRule.pauseDispatcher()
+
+        val viewModel = getMovieViewModel()
+
+        assertThat(viewModel.stateFlow.value, `is`(Resource.Loading))
+
+        testCoroutineRule.resumeDispatcher()
+
+        assertThat(viewModel.stateFlow.value, `is`(Resource.Error(errorMsg)))
     }
 
-    private fun getMoviesUseCase() : GetMoviesUseCase {
+    private fun getMovieViewModel(): MovieViewModel {
         val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
-        return GetMoviesUseCase(repository)
+        val useCase = GetMoviesUseCase(repository)
+        return MovieViewModel(useCase)
     }
 }
