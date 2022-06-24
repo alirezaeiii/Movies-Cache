@@ -102,9 +102,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun showEmptyList(message: String) {
-        binding.recyclerView.visibility = View.GONE
-        binding.emptyView.visibility = View.VISIBLE
-        binding.emptyView.text = message
+        with(binding) {
+            recyclerView.visibility = View.GONE
+            emptyView.visibility = View.VISIBLE
+            emptyView.text = message
+        }
     }
 
     private fun showError(message: String) {
@@ -114,32 +116,36 @@ class HomeFragment : Fragment() {
     private fun handleNetwork() {
         networkUtils.getNetworkLiveData().observe(viewLifecycleOwner) { isConnected: Boolean ->
             if (!isConnected) {
-                binding.textViewNetworkStatus.text = getString(R.string.text_no_connectivity)
-                binding.networkStatusLayout.visibility = View.VISIBLE
-                binding.networkStatusLayout.setBackgroundColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorStatusNotConnected, null
+                with(binding) {
+                    textViewNetworkStatus.text = getString(R.string.text_no_connectivity)
+                    networkStatusLayout.visibility = View.VISIBLE
+                    networkStatusLayout.setBackgroundColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.colorStatusNotConnected, null
+                        )
                     )
-                )
-                binding.swipeRefreshLayout.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
+                }
             } else {
                 viewModel.refresh()
-                binding.textViewNetworkStatus.text = getString(R.string.text_connectivity)
-                binding.networkStatusLayout.setBackgroundColor(
-                    ResourcesCompat.getColor(
-                        resources, R.color.colorStatusConnected, null
+                with(binding) {
+                    textViewNetworkStatus.text = getString(R.string.text_connectivity)
+                    networkStatusLayout.setBackgroundColor(
+                        ResourcesCompat.getColor(
+                            resources, R.color.colorStatusConnected, null
+                        )
                     )
-                )
-                binding.networkStatusLayout.animate().alpha(1f)
-                    .setStartDelay(ANIMATION_DURATION.toLong())
-                    .setDuration(ANIMATION_DURATION.toLong())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            super.onAnimationEnd(animation)
-                            binding.networkStatusLayout.visibility = View.GONE
-                        }
-                    })
+                    networkStatusLayout.animate().alpha(1f)
+                        .setStartDelay(ANIMATION_DURATION.toLong())
+                        .setDuration(ANIMATION_DURATION.toLong())
+                        .setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator) {
+                                super.onAnimationEnd(animation)
+                                binding.networkStatusLayout.visibility = View.GONE
+                            }
+                        })
+                }
             }
         }
     }
