@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
@@ -64,7 +64,7 @@ class MovieViewModelTest {
     @Test
     fun `test Fetch MovieList Fails`() {
         val errorMsg = "error message"
-        `when`(context.getString(ArgumentMatchers.anyInt())).thenReturn(errorMsg)
+        `when`(context.getString(anyInt())).thenReturn(errorMsg)
 
         testCoroutineRule.runBlockingTest {
             whenever(movieService.fetchMovieList()).thenThrow(RuntimeException(""))
@@ -83,7 +83,7 @@ class MovieViewModelTest {
     @Test
     fun `test Fetch MovieListOffers Fails`() {
         val errorMsg = "error message"
-        `when`(context.getString(ArgumentMatchers.anyInt())).thenReturn(errorMsg)
+        `when`(context.getString(anyInt())).thenReturn(errorMsg)
 
         testCoroutineRule.runBlockingTest {
             whenever(movieService.fetchMovieListOffers()).thenThrow(RuntimeException(""))

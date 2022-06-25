@@ -10,7 +10,6 @@ import com.zattoo.movies.databinding.ListItemMoviesBinding
 
 class HomeAdapter : ListAdapter<Movie, HomeAdapter.ViewHolder>(DiffCallback) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder.from(parent)
 
@@ -22,8 +21,10 @@ class HomeAdapter : ListAdapter<Movie, HomeAdapter.ViewHolder>(DiffCallback) {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Movie) {
-            binding.movies = item
-            binding.executePendingBindings()
+            with(binding) {
+                movie = item
+                executePendingBindings()
+            }
         }
 
         companion object {

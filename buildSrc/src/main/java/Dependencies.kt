@@ -26,7 +26,7 @@ object Versions {
     const val coreTesting = "2.1.0"
     const val mockito = "3.5.13"
     const val mockitoKotlin = "2.2.0"
-    const val coroutinesTest = "1.4.2"
+    const val coroutinesTest = "1.5.2"
     const val jUnit = "4.13.2"
     const val espresso = "3.4.0"
     const val androidxJunit = "1.1.3"

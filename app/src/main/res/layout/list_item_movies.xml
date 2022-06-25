@@ -8,7 +8,7 @@
         <import type="com.zattoo.movies.utils.Converter" />
 
         <variable
-            name="movies"
+            name="movie"
             type="com.zattoo.movies.data.home.Movie" />
     </data>
 
@@ -31,11 +31,10 @@
                 android:layout_height="@dimen/movie_image_size"
                 android:contentDescription="@string/text_movies_header"
                 android:src="@mipmap/ic_launcher_foreground"
-                android:transitionName="photo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:loadImage="@{movies.image.url}"
+                app:loadImage="@{movie.image.url}"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -43,7 +42,7 @@
                 style="@style/MoviesTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{movies.title}"
+                android:text="@{movie.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/movies_imageView"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +53,7 @@
                 style="@style/MoviesSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{movies.subtitle}"
+                android:text="@{movie.subtitle}"
                 app:layout_constraintStart_toEndOf="@+id/movies_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/movies_title"
                 tools:text="@tools:sample/full_names" />
@@ -64,7 +63,7 @@
                 style="@style/MoviesPriceAvailability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{Converter.priceAndAvailabilityToString(movies.price.value + movies.price.currency.symbol, movies.availability, context)}'
+                android:text='@{Converter.priceAndAvailabilityToString(movie.price.value + movie.price.currency.symbol, movie.availability, context)}'
                 app:layout_constraintStart_toEndOf="@+id/movies_imageView"
                 app:layout_constraintTop_toBottomOf="@+id/movies_subtitle"
                 tools:text="@tools:sample/full_names" />
