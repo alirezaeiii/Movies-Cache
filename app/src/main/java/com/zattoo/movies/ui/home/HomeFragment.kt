@@ -72,7 +72,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initUiElements() {
-        adapter = HomeAdapter()
         binding.recyclerView.adapter = adapter
     }
 
