@@ -2,10 +2,10 @@ package com.zattoo.movies.repository
 
 import android.content.Context
 import com.zattoo.movies.R
+import com.zattoo.movies.data.Movie
 import com.zattoo.movies.data.MovieListEntity
 import com.zattoo.movies.data.MovieListOffers
 import com.zattoo.movies.data.MovieService
-import com.zattoo.movies.data.home.Movie
 import com.zattoo.movies.di.IoDispatcher
 import com.zattoo.movies.utils.Resource
 import com.zattoo.movies.utils.createMovies

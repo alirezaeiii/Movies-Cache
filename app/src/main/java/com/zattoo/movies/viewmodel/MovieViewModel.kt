@@ -2,7 +2,7 @@ package com.zattoo.movies.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zattoo.movies.data.home.Movie
+import com.zattoo.movies.data.Movie
 import com.zattoo.movies.usecase.GetMoviesUseCase
 import com.zattoo.movies.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,11 +1,6 @@
 package com.zattoo.movies.utils
 
-import com.zattoo.movies.data.MovieListEntity
-import com.zattoo.movies.data.MovieListOffers
-import com.zattoo.movies.data.home.Currency
-import com.zattoo.movies.data.home.Image
-import com.zattoo.movies.data.home.Movie
-import com.zattoo.movies.data.home.Price
+import com.zattoo.movies.data.*
 
 fun createMovies(
     movieDetails: List<MovieListEntity.MovieData>,

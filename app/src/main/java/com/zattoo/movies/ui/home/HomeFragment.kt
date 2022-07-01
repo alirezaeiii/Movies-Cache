@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.zattoo.movies.R
 import com.zattoo.movies.BR
-import com.zattoo.movies.data.home.Movie
+import com.zattoo.movies.data.Movie
 import com.zattoo.movies.databinding.FragmentHomeBinding
 import com.zattoo.movies.utils.NetworkUtils
 import com.zattoo.movies.utils.Resource
