@@ -79,6 +79,10 @@ class HomeFragment : Fragment() {
         if (movies.isEmpty()) {
             handleError()
         } else {
+            with(binding) {
+                recyclerView.visibility = View.VISIBLE
+                emptyView.visibility = View.GONE
+            }
             adapter.submitList(movies)
         }
     }
@@ -124,7 +128,6 @@ class HomeFragment : Fragment() {
                             R.color.colorStatusNotConnected, null
                         )
                     )
-                    swipeRefreshLayout.isRefreshing = false
                 }
             } else {
                 viewModel.refresh()
