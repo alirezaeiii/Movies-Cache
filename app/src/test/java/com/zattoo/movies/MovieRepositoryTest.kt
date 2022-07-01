@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.zattoo.movies.data.MovieListEntity
 import com.zattoo.movies.data.MovieListOffers
 import com.zattoo.movies.data.MovieService
-import com.zattoo.movies.data.home.Movie
+import com.zattoo.movies.data.Movie
 import com.zattoo.movies.repository.MovieRepositoryImpl
 import com.zattoo.movies.utils.Resource
 import kotlinx.coroutines.Dispatchers
