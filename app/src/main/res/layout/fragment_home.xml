@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.zattoo.movies.viewmodel.MovieViewModel" />
+            type="com.sample.movies.viewmodel.MovieViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

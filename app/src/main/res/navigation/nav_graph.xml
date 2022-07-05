@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.zattoo.movies.ui.home.HomeFragment"
+        android:name="com.sample.movies.ui.home.HomeFragment"
         android:label="Movies" />
 </navigation>

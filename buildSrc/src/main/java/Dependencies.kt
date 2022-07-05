@@ -33,7 +33,7 @@ object Versions {
 }
 
 object AppMetaData {
-    const val id = "com.zattoo.movies"
+    const val id = "com.sample.movies"
     const val compileSdkVersion = 32
     const val targetSdkVersion = 32
     const val minSdkVersion = 21

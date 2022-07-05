@@ -1,0 +1,95 @@
+package com.sample.movies
+
+import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nhaarman.mockitokotlin2.whenever
+import com.sample.movies.data.MovieListEntity
+import com.sample.movies.data.MovieListOffers
+import com.sample.movies.data.MovieService
+import com.sample.movies.data.Movie
+import com.sample.movies.repository.MovieRepositoryImpl
+import com.sample.movies.usecase.GetMoviesUseCase
+import com.sample.movies.utils.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
+import org.junit.Assert.assertEquals
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestRule
+import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.junit.MockitoJUnitRunner
+
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
+class GetMoviesUseCaseTest {
+
+    @get:Rule
+    val rule: TestRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
+
+    @Mock
+    private lateinit var movieService: MovieService
+
+    @Mock
+    private lateinit var context: Context
+
+    @Test
+    fun `test Api Succeeds`() {
+        testCoroutineRule.runBlockingTest {
+            whenever(movieService.fetchMovieList()).thenReturn(MovieListEntity(emptyList()))
+            whenever(movieService.fetchMovieListOffers()).thenReturn(
+                MovieListOffers(
+                    "",
+                    emptyList()
+                )
+            )
+
+            val useCase = getMoviesUseCase()
+
+            assertEquals(Resource.Loading, useCase.invoke().first())
+            assertEquals(Resource.Success<List<Movie>>(emptyList()), useCase.invoke().last())
+        }
+    }
+
+    @Test
+    fun `test Fetch MovieList Fails`() {
+        val errorMsg = "error message"
+        `when`(context.getString(anyInt())).thenReturn(errorMsg)
+
+        testCoroutineRule.runBlockingTest {
+            whenever(movieService.fetchMovieList()).thenThrow(RuntimeException(""))
+
+            val useCase = getMoviesUseCase()
+
+            assertEquals(Resource.Loading, useCase.invoke().first())
+            assertEquals(Resource.Error(errorMsg), useCase.invoke().last())
+        }
+    }
+
+    @Test
+    fun `test Fetch MovieListOffers Fails`() {
+        val errorMsg = "error message"
+        `when`(context.getString(anyInt())).thenReturn(errorMsg)
+
+        testCoroutineRule.runBlockingTest {
+            whenever(movieService.fetchMovieListOffers()).thenThrow(RuntimeException(""))
+
+            val useCase = getMoviesUseCase()
+
+            assertEquals(Resource.Loading, useCase.invoke().first())
+            assertEquals(Resource.Error(errorMsg), useCase.invoke().last())
+        }
+    }
+
+    private fun getMoviesUseCase() : GetMoviesUseCase {
+        val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
+        return GetMoviesUseCase(repository)
+    }
+}

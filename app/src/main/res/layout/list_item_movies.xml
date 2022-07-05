@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.zattoo.movies.utils.Converter" />
+        <import type="com.sample.movies.utils.Converter" />
 
         <variable
             name="movie"
-            type="com.zattoo.movies.data.Movie" />
+            type="com.sample.movies.data.Movie" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

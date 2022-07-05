@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zattoo</string>
+    <string name="app_name">Movies</string>
     <string name="text_no_connectivity">No internet connection</string>
     <string name="text_movies_header">Movies Header</string>
     <string name="text_connectivity">Connected</string>
