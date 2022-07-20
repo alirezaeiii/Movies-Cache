@@ -130,6 +130,7 @@ class HomeFragment : Fragment() {
                     )
                 }
             } else {
+                viewModel.refresh()
                 with(binding) {
                     textViewNetworkStatus.text = getString(R.string.text_connectivity)
                     networkStatusLayout.setBackgroundColor(
