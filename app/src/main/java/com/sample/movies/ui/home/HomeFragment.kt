@@ -62,10 +62,10 @@ class HomeFragment : Fragment() {
     private fun handleResults() {
         lifecycleScope.launch {
             viewModel.stateFlow.collect {
-                when (it) {
-                    is Resource.Success -> handleResults(it.data)
-                    is Resource.Error -> handleError(it.message)
-                    is Resource.Loading -> Timber.d("Loading")
+                if (it is Resource.Success) {
+                    handleResults(it.data)
+                } else if (it is Resource.Error) {
+                    handleError(it.message)
                 }
             }
         }
