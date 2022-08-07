@@ -62,10 +62,16 @@ class HomeFragment : Fragment() {
     private fun handleResults() {
         lifecycleScope.launch {
             viewModel.stateFlow.collect {
-                if (it is Resource.Success) {
-                    handleResults(it.data)
-                } else if (it is Resource.Error) {
-                    handleError(it.message)
+                when (it) {
+                    is Resource.Loading -> showLoading(true)
+                    is Resource.Success -> {
+                        handleResults(it.data)
+                        showLoading(false)
+                    }
+                    is Resource.Error -> {
+                        handleError(it.message)
+                        showLoading(false)
+                    }
                 }
             }
         }
@@ -85,6 +91,10 @@ class HomeFragment : Fragment() {
             }
             adapter.submitList(movies)
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.swipeRefreshLayout.isRefreshing = isLoading
     }
 
     private fun handleError(error: String) {
