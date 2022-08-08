@@ -11,8 +11,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.sample.movies.R
 import com.sample.movies.BR
+import com.sample.movies.R
 import com.sample.movies.data.Movie
 import com.sample.movies.databinding.FragmentHomeBinding
 import com.sample.movies.utils.NetworkUtils
@@ -21,7 +21,6 @@ import com.sample.movies.viewmodel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -69,7 +68,7 @@ class HomeFragment : Fragment() {
                         showLoading(false)
                     }
                     is Resource.Error -> {
-                        handleError(it.message)
+                        showError(it.message)
                         showLoading(false)
                     }
                 }
@@ -83,7 +82,11 @@ class HomeFragment : Fragment() {
 
     private fun handleResults(movies: List<Movie>) {
         if (movies.isEmpty()) {
-            handleError()
+            with(binding) {
+                recyclerView.visibility = View.GONE
+                emptyView.visibility = View.VISIBLE
+                emptyView.text = getString(R.string.empty_list)
+            }
         } else {
             with(binding) {
                 recyclerView.visibility = View.VISIBLE
@@ -95,31 +98,6 @@ class HomeFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.swipeRefreshLayout.isRefreshing = isLoading
-    }
-
-    private fun handleError(error: String) {
-        handleError(false, error)
-    }
-
-    private fun handleError() {
-        handleError(true, "")
-    }
-
-    private fun handleError(isEmptyList: Boolean, error: String) {
-        if (isEmptyList) {
-            val errorMessage = getString(R.string.empty_list)
-            showEmptyList(errorMessage)
-        } else {
-            showError(error)
-        }
-    }
-
-    private fun showEmptyList(message: String) {
-        with(binding) {
-            recyclerView.visibility = View.GONE
-            emptyView.visibility = View.VISIBLE
-            emptyView.text = message
-        }
     }
 
     private fun showError(message: String) {
