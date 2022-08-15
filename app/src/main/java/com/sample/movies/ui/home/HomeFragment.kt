@@ -48,9 +48,13 @@ class HomeFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
         handleResults()
-        handleNetwork()
         initUiElements()
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        handleNetwork()
     }
 
     override fun onDestroyView() {
