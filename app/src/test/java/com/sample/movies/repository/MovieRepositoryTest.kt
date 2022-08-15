@@ -1,19 +1,19 @@
-package com.sample.movies
+package com.sample.movies.repository
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.whenever
+import com.sample.movies.TestCoroutineRule
 import com.sample.movies.data.MovieListEntity
 import com.sample.movies.data.MovieListOffers
 import com.sample.movies.data.MovieService
-import com.sample.movies.data.Movie
-import com.sample.movies.repository.MovieRepositoryImpl
 import com.sample.movies.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
-import org.junit.Assert.assertEquals
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -52,8 +52,8 @@ class MovieRepositoryTest {
 
             val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
 
-            assertEquals(Resource.Loading, repository.getMovies().first())
-            assertEquals(Resource.Success<List<Movie>>(emptyList()), repository.getMovies().last())
+            assertThat(repository.getMovies().first(), `is`(Resource.Loading))
+            assertThat(repository.getMovies().last(), `is`(Resource.Success(emptyList())))
         }
     }
 
@@ -67,8 +67,8 @@ class MovieRepositoryTest {
 
             val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
 
-            assertEquals(Resource.Loading, repository.getMovies().first())
-            assertEquals(Resource.Error(errorMsg), repository.getMovies().last())
+            assertThat(repository.getMovies().first(), `is`(Resource.Loading))
+            assertThat(repository.getMovies().last(), `is`(Resource.Error(errorMsg)))
         }
     }
 
@@ -82,8 +82,8 @@ class MovieRepositoryTest {
 
             val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
 
-            assertEquals(Resource.Loading, repository.getMovies().first())
-            assertEquals(Resource.Error(errorMsg), repository.getMovies().last())
+            assertThat(repository.getMovies().first(), `is`(Resource.Loading))
+            assertThat(repository.getMovies().last(), `is`(Resource.Error(errorMsg)))
         }
     }
 }
