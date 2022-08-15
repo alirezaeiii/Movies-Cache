@@ -8,6 +8,7 @@ import com.sample.movies.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.last
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
@@ -34,10 +35,12 @@ class GetMoviesUseCaseTest {
     fun `test Api Succeeds`() {
         testCoroutineRule.runBlockingTest {
             whenever(repository.getMovies()).thenReturn(
-                flowOf(Resource.Success(emptyList()))
+                flowOf(Resource.Loading, Resource.Success(emptyList()))
             )
             val useCase = GetMoviesUseCase(repository)
-            assertThat(useCase.invoke().first(), `is`(Resource.Success(emptyList())))
+
+            assertThat(useCase.invoke().first(), `is`(Resource.Loading))
+            assertThat(useCase.invoke().last(), `is`(Resource.Success(emptyList())))
         }
     }
 
@@ -46,10 +49,12 @@ class GetMoviesUseCaseTest {
         val errorMsg = "error message"
         testCoroutineRule.runBlockingTest {
             whenever(repository.getMovies()).thenReturn(
-                flowOf(Resource.Error(errorMsg))
+                flowOf(Resource.Loading, Resource.Error(errorMsg))
             )
             val useCase = GetMoviesUseCase(repository)
-            assertThat(useCase.invoke().first(), `is`(Resource.Error(errorMsg)))
+
+            assertThat(useCase.invoke().first(), `is`(Resource.Loading))
+            assertThat(useCase.invoke().last(), `is`(Resource.Error(errorMsg)))
         }
     }
 }
