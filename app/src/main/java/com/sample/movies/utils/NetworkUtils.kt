@@ -6,9 +6,9 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 
 class NetworkUtils(context: Context) : ConnectivityManager.NetworkCallback() {
 
@@ -40,7 +40,7 @@ class NetworkUtils(context: Context) : ConnectivityManager.NetworkCallback() {
 
         networkLiveData.postValue(isConnected)
 
-        return networkLiveData
+        return Transformations.distinctUntilChanged(networkLiveData)
     }
 
     override fun onAvailable(network: Network) {
