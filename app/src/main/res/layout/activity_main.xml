@@ -26,6 +26,26 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </com.google.android.material.appbar.AppBarLayout>
 
+        <LinearLayout
+            android:id="@+id/networkStatusLayout"
+            style="@style/StatusView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorStatusNotConnected"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBar">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewNetworkStatus"
+                style="@style/StatusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_no_connectivity"
+                tools:text="@string/text_no_connectivity" />
+        </LinearLayout>
+
         <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -34,7 +54,7 @@
             app:defaultNavHost="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBar"
+            app:layout_constraintTop_toBottomOf="@+id/networkStatusLayout"
             app:navGraph="@navigation/nav_graph" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

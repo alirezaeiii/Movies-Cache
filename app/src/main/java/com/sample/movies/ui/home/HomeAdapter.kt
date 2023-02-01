@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.sample.movies.data.Movie
+import com.sample.movies.domain.Movie
 import com.sample.movies.databinding.ListItemMoviesBinding
 
 class HomeAdapter : ListAdapter<Movie, HomeAdapter.ViewHolder>(DiffCallback) {

@@ -1,21 +1,17 @@
 package com.sample.movies.ui.home
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.sample.movies.BR
 import com.sample.movies.R
-import com.sample.movies.data.Movie
 import com.sample.movies.databinding.FragmentHomeBinding
-import com.sample.movies.utils.NetworkUtils
+import com.sample.movies.domain.Movie
 import com.sample.movies.utils.Resource
 import com.sample.movies.viewmodel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,9 +24,6 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var adapter: HomeAdapter
-
-    @Inject
-    lateinit var networkUtils: NetworkUtils
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -50,11 +43,6 @@ class HomeFragment : Fragment() {
         handleResults()
         initUiElements()
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-        handleNetwork()
     }
 
     override fun onDestroyView() {
@@ -107,42 +95,4 @@ class HomeFragment : Fragment() {
     private fun showError(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
-
-    private fun handleNetwork() {
-        networkUtils.getNetworkLiveData().observe(viewLifecycleOwner) { isConnected: Boolean ->
-            if (!isConnected) {
-                with(binding) {
-                    textViewNetworkStatus.text = getString(R.string.text_no_connectivity)
-                    networkStatusLayout.visibility = View.VISIBLE
-                    networkStatusLayout.setBackgroundColor(
-                        ResourcesCompat.getColor(
-                            resources,
-                            R.color.colorStatusNotConnected, null
-                        )
-                    )
-                }
-            } else {
-                viewModel.refresh()
-                with(binding) {
-                    textViewNetworkStatus.text = getString(R.string.text_connectivity)
-                    networkStatusLayout.setBackgroundColor(
-                        ResourcesCompat.getColor(
-                            resources, R.color.colorStatusConnected, null
-                        )
-                    )
-                    networkStatusLayout.animate().alpha(1f)
-                        .setStartDelay(ANIMATION_DURATION.toLong())
-                        .setDuration(ANIMATION_DURATION.toLong())
-                        .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator) {
-                                super.onAnimationEnd(animation)
-                                _binding?.networkStatusLayout?.visibility = View.GONE
-                            }
-                        })
-                }
-            }
-        }
-    }
 }
-
-private const val ANIMATION_DURATION = 1000

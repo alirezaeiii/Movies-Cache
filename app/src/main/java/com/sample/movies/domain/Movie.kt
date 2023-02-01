@@ -1,4 +1,4 @@
-package com.sample.movies.data
+package com.sample.movies.domain
 
 data class Movie(
     val title: String,

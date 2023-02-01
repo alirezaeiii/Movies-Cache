@@ -2,7 +2,7 @@ package com.sample.movies.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sample.movies.data.Movie
+import com.sample.movies.domain.Movie
 import com.sample.movies.usecase.GetMoviesUseCase
 import com.sample.movies.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel

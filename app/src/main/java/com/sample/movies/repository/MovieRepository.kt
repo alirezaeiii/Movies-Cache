@@ -1,6 +1,6 @@
 package com.sample.movies.repository
 
-import com.sample.movies.data.Movie
+import com.sample.movies.domain.Movie
 import com.sample.movies.utils.Resource
 import kotlinx.coroutines.flow.Flow
 

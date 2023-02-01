@@ -1,6 +1,10 @@
 package com.sample.movies.utils
 
 import com.sample.movies.data.*
+import com.sample.movies.domain.Currency
+import com.sample.movies.domain.Image
+import com.sample.movies.domain.Movie
+import com.sample.movies.domain.Price
 
 fun createMovies(
     movieDetails: List<MovieListEntity.MovieData>,

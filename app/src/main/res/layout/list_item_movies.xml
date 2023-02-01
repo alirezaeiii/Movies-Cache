@@ -9,7 +9,7 @@
 
         <variable
             name="movie"
-            type="com.sample.movies.data.Movie" />
+            type="com.sample.movies.domain.Movie" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

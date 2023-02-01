@@ -2,7 +2,7 @@ package com.sample.movies.repository
 
 import android.content.Context
 import com.sample.movies.R
-import com.sample.movies.data.Movie
+import com.sample.movies.domain.Movie
 import com.sample.movies.data.MovieListEntity
 import com.sample.movies.data.MovieListOffers
 import com.sample.movies.data.MovieService
