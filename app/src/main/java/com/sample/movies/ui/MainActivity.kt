@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var networkUtils: NetworkUtils
 
-   override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
@@ -30,7 +30,16 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-       handleNetwork()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        handleNetwork()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        networkUtils.unRegister()
     }
 
     private fun handleNetwork() {

@@ -6,17 +6,18 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class NetworkUtils(private val context: Context) : ConnectivityManager.NetworkCallback() {
+class NetworkUtils(context: Context) : ConnectivityManager.NetworkCallback() {
 
     private val networkLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getNetworkLiveData(): LiveData<Boolean> {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    fun getNetworkLiveData(): LiveData<Boolean> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             connectivityManager.registerDefaultNetworkCallback(this)
         } else {
@@ -48,5 +49,9 @@ class NetworkUtils(private val context: Context) : ConnectivityManager.NetworkCa
 
     override fun onLost(network: Network) {
         networkLiveData.postValue(false)
+    }
+
+    fun unRegister() {
+        connectivityManager.unregisterNetworkCallback(this)
     }
 }
