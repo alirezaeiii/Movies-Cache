@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.text_no_connectivity)
                     networkStatusLayout.visibility = android.view.View.VISIBLE
                     networkStatusLayout.setBackgroundColor(
-                        androidx.core.content.res.ResourcesCompat.getColor(
+                        ResourcesCompat.getColor(
                             resources,
                             R.color.colorStatusNotConnected, null
                         )
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     textViewNetworkStatus.text =
                         getString(R.string.text_connectivity)
                     networkStatusLayout.setBackgroundColor(
-                        androidx.core.content.res.ResourcesCompat.getColor(
+                        ResourcesCompat.getColor(
                             resources, R.color.colorStatusConnected, null
                         )
                     )
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                         .setListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator) {
                                 super.onAnimationEnd(animation)
-                                binding.networkStatusLayout.visibility = android.view.View.GONE
+                                networkStatusLayout.visibility = android.view.View.GONE
                             }
                         })
                 }
