@@ -3,6 +3,7 @@ package com.sample.movies.ui
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.findNavController
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 with(binding) {
                     textViewNetworkStatus.text =
                         getString(R.string.text_no_connectivity)
-                    networkStatusLayout.visibility = android.view.View.VISIBLE
+                    networkStatusLayout.visibility = View.VISIBLE
                     networkStatusLayout.setBackgroundColor(
                         ResourcesCompat.getColor(
                             resources,
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         .setListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator) {
                                 super.onAnimationEnd(animation)
-                                networkStatusLayout.visibility = android.view.View.GONE
+                                networkStatusLayout.visibility = View.GONE
                             }
                         })
                 }
