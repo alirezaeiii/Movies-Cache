@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.last
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -31,13 +32,19 @@ class GetMoviesUseCaseTest {
     @Mock
     private lateinit var repository: MovieRepository
 
+    private lateinit var useCase: GetMoviesUseCase
+
+    @Before
+    fun setup() {
+        useCase = GetMoviesUseCase(repository)
+    }
+
     @Test
     fun `test Api Succeeds`() {
         testCoroutineRule.runBlockingTest {
             whenever(repository.getMovies()).thenReturn(
                 flowOf(Resource.Loading, Resource.Success(emptyList()))
             )
-            val useCase = GetMoviesUseCase(repository)
 
             assertThat(useCase.invoke().first(), `is`(Resource.Loading))
             assertThat(useCase.invoke().last(), `is`(Resource.Success(emptyList())))
@@ -51,7 +58,6 @@ class GetMoviesUseCaseTest {
             whenever(repository.getMovies()).thenReturn(
                 flowOf(Resource.Loading, Resource.Error(errorMsg))
             )
-            val useCase = GetMoviesUseCase(repository)
 
             assertThat(useCase.invoke().first(), `is`(Resource.Loading))
             assertThat(useCase.invoke().last(), `is`(Resource.Error(errorMsg)))

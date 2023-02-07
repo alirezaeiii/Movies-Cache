@@ -3,14 +3,19 @@ package com.sample.movies.data
 import com.squareup.moshi.Json
 
 data class MovieListOffers(
-    val image_base: String,
+    @Json(name = "image_base")
+    val imageBase: String,
     @Json(name = "movie_offers")
     val offers: List<MovieOffer>
 ) {
     data class MovieOffer(
+        @Json(name = "available")
         val available: Boolean,
+        @Json(name = "image")
         val image: String,
-        val movie_id: Int,
+        @Json(name = "movie_id")
+        val movieId: Int,
+        @Json(name = "price")
         val price: String
     )
 }

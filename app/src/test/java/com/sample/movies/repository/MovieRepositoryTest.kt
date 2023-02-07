@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.whenever
 import com.sample.movies.TestCoroutineRule
-import com.sample.movies.data.MovieListEntity
+import com.sample.movies.data.MovieListResponse
 import com.sample.movies.data.MovieListOffers
 import com.sample.movies.data.MovieService
+import com.sample.movies.database.MovieDao
+import com.sample.movies.database.MoviesEntity
 import com.sample.movies.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -37,12 +40,23 @@ class MovieRepositoryTest {
     private lateinit var movieService: MovieService
 
     @Mock
+    private lateinit var dao: MovieDao
+
+    @Mock
     private lateinit var context: Context
+
+    private lateinit var repository: MovieRepository
+
+    @Before
+    fun setup() {
+        repository = MovieRepositoryImpl(context, dao, movieService, Dispatchers.Main)
+    }
 
     @Test
     fun `test Api Succeeds`() {
         testCoroutineRule.runBlockingTest {
-            whenever(movieService.fetchMovieList()).thenReturn(MovieListEntity(emptyList()))
+            whenever(dao.getMovies()).thenReturn(MoviesEntity("", emptyList()))
+            whenever(movieService.fetchMovieList()).thenReturn(MovieListResponse(emptyList()))
             whenever(movieService.fetchMovieListOffers()).thenReturn(
                 MovieListOffers(
                     "",
@@ -50,7 +64,22 @@ class MovieRepositoryTest {
                 )
             )
 
-            val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
+            assertThat(repository.getMovies().first(), `is`(Resource.Success(emptyList())))
+            assertThat(repository.getMovies().last(), `is`(Resource.Success(emptyList())))
+        }
+    }
+
+    @Test
+    fun `test Api Succeeds when dao returns null`() {
+        testCoroutineRule.runBlockingTest {
+            whenever(dao.getMovies()).thenReturn(null)
+            whenever(movieService.fetchMovieList()).thenReturn(MovieListResponse(emptyList()))
+            whenever(movieService.fetchMovieListOffers()).thenReturn(
+                MovieListOffers(
+                    "",
+                    emptyList()
+                )
+            )
 
             assertThat(repository.getMovies().first(), `is`(Resource.Loading))
             assertThat(repository.getMovies().last(), `is`(Resource.Success(emptyList())))
@@ -64,8 +93,21 @@ class MovieRepositoryTest {
 
         testCoroutineRule.runBlockingTest {
             whenever(movieService.fetchMovieList()).thenThrow(RuntimeException(""))
+            whenever(dao.getMovies()).thenReturn(MoviesEntity("", emptyList()))
 
-            val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
+            assertThat(repository.getMovies().first(), `is`(Resource.Success(emptyList())))
+            assertThat(repository.getMovies().last(), `is`(Resource.Error(errorMsg)))
+        }
+    }
+
+    @Test
+    fun `test Fetch MovieList Fails when dao returns null`() {
+        val errorMsg = "error message"
+        `when`(context.getString(anyInt())).thenReturn(errorMsg)
+
+        testCoroutineRule.runBlockingTest {
+            whenever(movieService.fetchMovieList()).thenThrow(RuntimeException(""))
+            whenever(dao.getMovies()).thenReturn(null)
 
             assertThat(repository.getMovies().first(), `is`(Resource.Loading))
             assertThat(repository.getMovies().last(), `is`(Resource.Error(errorMsg)))
@@ -79,8 +121,21 @@ class MovieRepositoryTest {
 
         testCoroutineRule.runBlockingTest {
             whenever(movieService.fetchMovieListOffers()).thenThrow(RuntimeException(""))
+            whenever(dao.getMovies()).thenReturn(MoviesEntity("", emptyList()))
 
-            val repository = MovieRepositoryImpl(context, movieService, Dispatchers.Main)
+            assertThat(repository.getMovies().first(), `is`(Resource.Success(emptyList())))
+            assertThat(repository.getMovies().last(), `is`(Resource.Error(errorMsg)))
+        }
+    }
+
+    @Test
+    fun `test Fetch MovieListOffers Fails when dao returns null`() {
+        val errorMsg = "error message"
+        `when`(context.getString(anyInt())).thenReturn(errorMsg)
+
+        testCoroutineRule.runBlockingTest {
+            whenever(movieService.fetchMovieListOffers()).thenThrow(RuntimeException(""))
+            whenever(dao.getMovies()).thenReturn(null)
 
             assertThat(repository.getMovies().first(), `is`(Resource.Loading))
             assertThat(repository.getMovies().last(), `is`(Resource.Error(errorMsg)))

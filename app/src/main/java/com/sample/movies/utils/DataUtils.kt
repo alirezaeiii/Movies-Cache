@@ -7,21 +7,21 @@ import com.sample.movies.domain.Movie
 import com.sample.movies.domain.Price
 
 fun createMovies(
-    movieDetails: List<MovieListEntity.MovieData>,
+    movieDetails: List<MovieListResponse.MovieData>,
     movieListOffers: MovieListOffers
 ): List<Movie> {
     return movieListOffers.offers.mapNotNull { offers ->
-        val details = movieDetails.find { it.movie_id == offers.movie_id }
+        val details = movieDetails.find { it.movieId == offers.movieId }
         details?.let {
             val movieOfferPrice = offers.price
             val currency = Currency(movieOfferPrice.last().toString())
             val price = movieOfferPrice.substring(0 until movieOfferPrice.length - 1).toFloat()
             Movie(
-                id = it.movie_id,
+                id = it.movieId,
                 title = it.title,
-                subtitle = it.sub_title,
+                subtitle = it.subTitle,
                 price = Price(price, currency),
-                image = Image(movieListOffers.image_base + offers.image),
+                image = Image(movieListOffers.imageBase + offers.image),
                 availability = offers.available
             )
         }

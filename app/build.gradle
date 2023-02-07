@@ -52,6 +52,9 @@ dependencies {
     implementation Deps.navigationUi
     implementation Deps.glide
     implementation Deps.hilt
+    implementation Deps.roomCommon
+    kapt Deps.roomCompiler
+    implementation Deps.room
     kapt Deps.hilt_compiler
     implementation Deps.retrofit
     implementation Deps.retrofitCoroutines
@@ -59,6 +62,7 @@ dependencies {
     implementation Deps.okhttpInterceptor
     implementation Deps.moshi
     implementation Deps.moshiKotlin
+    implementation Deps.gson
     implementation Deps.coroutinesCore
     implementation Deps.coroutinesAndroid
     implementation Deps.liveData

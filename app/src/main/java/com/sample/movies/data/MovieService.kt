@@ -7,5 +7,5 @@ interface MovieService {
     suspend fun fetchMovieListOffers(): MovieListOffers
 
     @GET("movie_data.json")
-    suspend fun fetchMovieList(): MovieListEntity
+    suspend fun fetchMovieList(): MovieListResponse
 }

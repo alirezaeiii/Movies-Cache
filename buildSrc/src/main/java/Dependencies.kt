@@ -3,10 +3,12 @@ object Versions {
     const val kotlin = "1.6.21"
     const val hilt = "2.40"
     const val navigation = "2.4.2"
+    const val room = "2.5.0"
     const val retrofit = "2.9.0"
     const val okhttp = "4.9.0"
     const val moshi = "1.11.0"
     const val converterMoshi = "2.9.0"
+    const val gson = "2.10.1"
     const val coroutines = "1.5.2"
     const val glide = "4.12.0"
     const val timber = "4.7.1"
@@ -34,8 +36,8 @@ object Versions {
 
 object AppMetaData {
     const val id = "com.sample.movies"
-    const val compileSdkVersion = 32
-    const val targetSdkVersion = 32
+    const val compileSdkVersion = 33
+    const val targetSdkVersion = 33
     const val minSdkVersion = 21
     const val versionCode = 1
     const val versionName = "1.0.0"
@@ -61,6 +63,11 @@ object Deps {
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 
+    // Room
+    const val roomCommon = "androidx.room:room-common:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val room = "androidx.room:room-ktx:${Versions.room}"
+
     //Networking
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitCoroutines =
@@ -72,6 +79,8 @@ object Deps {
     const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
     const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
     const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+
+    const val gson = "com.google.code.gson:gson:${Versions.gson}"
 
     //Coroutines
     const val coroutinesCore =
