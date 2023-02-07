@@ -2,9 +2,10 @@ package com.sample.movies.repository
 
 import android.content.Context
 import com.sample.movies.R
-import com.sample.movies.data.MovieListResponse
-import com.sample.movies.data.MovieListOffers
-import com.sample.movies.data.MovieService
+import com.sample.movies.data.response.MovieListResponse
+import com.sample.movies.data.response.MovieListOffers
+import com.sample.movies.data.network.MovieService
+import com.sample.movies.data.repository.MovieRepository
 import com.sample.movies.database.MovieDao
 import com.sample.movies.database.asDomainModel
 import com.sample.movies.di.IoDispatcher
@@ -35,9 +36,9 @@ class MovieRepositoryImpl @Inject constructor(
         try {
             dao.getMovies()?.let {
                 emit(Resource.Success(it.asDomainModel()))
-                emitMovies(this)
+                emitMovies(this, true)
             } ?: run {
-                emitMovies(this)
+                emitMovies(this, false)
             }
         } catch (t: Throwable) {
             emit(Resource.Error(context.getString(R.string.general_error_message)))
@@ -45,7 +46,10 @@ class MovieRepositoryImpl @Inject constructor(
 
     }.flowOn(ioDispatcher)
 
-    private suspend fun emitMovies(flow: FlowCollector<Resource<List<Movie>>>) {
+    private suspend fun emitMovies(
+        flow: FlowCollector<Resource<List<Movie>>>,
+        isDbDeletable: Boolean
+    ) {
         flow.emit(Resource.Loading)
         coroutineScope {
             val movieDataList: Deferred<MovieListResponse> = async {
@@ -55,13 +59,17 @@ class MovieRepositoryImpl @Inject constructor(
                 movieService.fetchMovieListOffers()
             }
 
-            val movie = createMovies(
+            val movies = createMovies(
                 movieDataList.await().movieData,
                 movieListOffers.await()
             )
 
-            dao.insert(movie.asDatabaseModel())
-            flow.emit(Resource.Success(movie))
+            if (isDbDeletable) {
+                dao.deleteMovies()
+            }
+            dao.insert(movies.asDatabaseModel())
+
+            flow.emit(Resource.Success(movies))
         }
     }
 }

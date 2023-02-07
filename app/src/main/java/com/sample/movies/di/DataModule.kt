@@ -1,6 +1,6 @@
 package com.sample.movies.di
 
-import com.sample.movies.data.MovieService
+import com.sample.movies.data.network.MovieService
 import com.sample.movies.ui.home.HomeAdapter
 import dagger.Module
 import dagger.Provides

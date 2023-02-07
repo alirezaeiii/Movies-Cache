@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.whenever
 import com.sample.movies.TestCoroutineRule
-import com.sample.movies.data.MovieListResponse
-import com.sample.movies.data.MovieListOffers
-import com.sample.movies.data.MovieService
+import com.sample.movies.data.response.MovieListResponse
+import com.sample.movies.data.response.MovieListOffers
+import com.sample.movies.data.network.MovieService
+import com.sample.movies.data.repository.MovieRepository
 import com.sample.movies.database.MovieDao
 import com.sample.movies.database.MoviesEntity
 import com.sample.movies.utils.Resource

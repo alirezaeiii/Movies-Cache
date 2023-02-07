@@ -1,6 +1,7 @@
 package com.sample.movies.utils
 
-import com.sample.movies.data.*
+import com.sample.movies.data.response.MovieListOffers
+import com.sample.movies.data.response.MovieListResponse
 import com.sample.movies.domain.Currency
 import com.sample.movies.domain.Image
 import com.sample.movies.domain.Movie

@@ -1,4 +1,4 @@
-package com.sample.movies.repository
+package com.sample.movies.data.repository
 
 import com.sample.movies.domain.Movie
 import com.sample.movies.utils.Resource

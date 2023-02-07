@@ -3,7 +3,7 @@ package com.sample.movies.usecase
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.whenever
 import com.sample.movies.TestCoroutineRule
-import com.sample.movies.repository.MovieRepository
+import com.sample.movies.data.repository.MovieRepository
 import com.sample.movies.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first

@@ -12,4 +12,7 @@ interface MovieDao {
 
     @Query("SELECT * FROM movies")
     suspend fun getMovies(): MoviesEntity?
+
+    @Query("DELETE FROM movies")
+    suspend fun deleteMovies()
 }
