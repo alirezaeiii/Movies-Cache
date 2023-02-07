@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Toolbar">
+        <item name="titleTextColor">@color/toolbarTextColor</item>
+        <item name="android:background">@color/toolbarColor</item>
+    </style>
+
     <style name="StatusTextView">
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">@color/white</item>
