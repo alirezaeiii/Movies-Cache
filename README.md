@@ -14,10 +14,12 @@ Local unit testing is done for Repository, UseCase and ViewModel layers.
    * [DataBinding](https://developer.android.com/topic/libraries/data-binding/) is a Library in the support library that allows you to bind UI components in your layouts to data sources in your app using a declarative format rather than programmatically.
    * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) is a dependency injection library for Android that reduces the boilerplate of doing manual dependency injection in your project.
    * [Navigation](https://developer.android.com/guide/navigation/) Android Jetpack's Navigation component helps you implement effective navigation.
+   * [Room](https://developer.android.com/topic/libraries/architecture/room) is a library for data storage persistence which provides an abstraction layer over SQLite.
 * [Kotlin coroutines](https://developer.android.com/kotlin/coroutines) Executing code asynchronously.
 * [StateFlow](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow) is a state-holder observable flow that emits the current and new state updates to its collectors.
 * [Retrofit](https://square.github.io/retrofit/) is a Type-safe HTTP client for Android, Java and Kotlin by Square.
 * [Moshi](https://github.com/square/moshi) is a modern JSON library for Android and Java. It makes it easy to parse JSON format data.
+* [Gson](https://github.com/google/gson) is a serialization/deserialization library to convert objects into JSON and back.
 * [Glide](https://github.com/bumptech/glide) is an image loading and caching library for Android.
 * [OkHttp interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor) Logs HTTP requests and responses.
 * [Material Design](https://material.io/develop/android/) Build beautiful, usable products using Material Components for Android.
