@@ -48,7 +48,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     private suspend fun emitMovies(
         flow: FlowCollector<Resource<List<Movie>>>,
-        isDbDeletable: Boolean
+        shouldClearDb: Boolean
     ) {
         flow.emit(Resource.Loading)
         coroutineScope {
@@ -64,7 +64,7 @@ class MovieRepositoryImpl @Inject constructor(
                 movieListOffers.await()
             )
 
-            if (isDbDeletable) {
+            if (shouldClearDb) {
                 dao.deleteMovies()
             }
             dao.insert(movies.asDatabaseModel())
