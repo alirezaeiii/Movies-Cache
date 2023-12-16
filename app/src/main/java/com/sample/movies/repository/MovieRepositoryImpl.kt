@@ -35,6 +35,7 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getMovies(): Flow<Resource<List<Movie>>> = flow {
         try {
             dao.getMovies()?.let {
+                // ****** We have a single source of truth - VIEW CACHE ******
                 emit(Resource.Success(it.asDomainModel()))
                 emitMovies(this, true)
             } ?: run {
@@ -51,6 +52,8 @@ class MovieRepositoryImpl @Inject constructor(
         shouldClearDb: Boolean
     ) {
         flow.emit(Resource.Loading)
+        
+        // ****** MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
         coroutineScope {
             val movieDataList: Deferred<MovieListResponse> = async {
                 movieService.fetchMovieList()
@@ -69,7 +72,8 @@ class MovieRepositoryImpl @Inject constructor(
             }
             dao.insert(movies.asDatabaseModel())
 
-            flow.emit(Resource.Success(movies))
+            // ****** We have a single source of truth - VIEW CACHE ******
+            flow.emit(Resource.Success(dao.getMovies()!!.asDomainModel()))
         }
     }
 }
