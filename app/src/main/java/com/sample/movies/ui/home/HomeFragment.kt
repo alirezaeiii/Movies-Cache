@@ -15,7 +15,6 @@ import com.sample.movies.domain.Movie
 import com.sample.movies.utils.Resource
 import com.sample.movies.viewmodel.MovieViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,7 +55,7 @@ class HomeFragment : Fragment() {
                 when (it) {
                     is Resource.Loading -> showLoading(true)
                     is Resource.Success -> {
-                        handleResults(it.data)
+                        it.data?.let { data -> handleResults(data) }
                         showLoading(false)
                     }
                     is Resource.Error -> {
