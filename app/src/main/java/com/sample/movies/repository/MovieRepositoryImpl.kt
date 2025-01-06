@@ -33,13 +33,14 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
 
     override fun getMovies(): Flow<Resource<List<Movie>>> = flow {
+        emit(Resource.Loading)
         try {
             dao.getMovies()?.let {
                 // ****** SINGLE SOURCE OF TRUTH - VIEW CACHE ******
                 emit(Resource.Success(it.asDomainModel()))
-                emitMovies(this, true)
+                emitMovies(true)
             } ?: run {
-                emitMovies(this, false)
+                emitMovies()
             }
         } catch (t: Throwable) {
             emit(Resource.Error(context.getString(R.string.general_error_message)))
@@ -47,12 +48,9 @@ class MovieRepositoryImpl @Inject constructor(
 
     }.flowOn(ioDispatcher)
 
-    private suspend fun emitMovies(
-        flow: FlowCollector<Resource<List<Movie>>>,
-        shouldClearDb: Boolean
+    private suspend fun FlowCollector<Resource<List<Movie>>>.emitMovies(
+        shouldClearDb: Boolean = false
     ) {
-        flow.emit(Resource.Loading)
-
         // ****** MAKE NETWORK CALL, SAVE RESULT TO CACHE ******
         coroutineScope {
             val movieDataList: Deferred<MovieListResponse> = async {
@@ -73,7 +71,7 @@ class MovieRepositoryImpl @Inject constructor(
             dao.insert(movies.asDatabaseModel())
 
             // ****** SINGLE SOURCE OF TRUTH - VIEW CACHE ******
-            flow.emit(Resource.Success(dao.getMovies()?.asDomainModel()))
+            emit(Resource.Success(dao.getMovies()?.asDomainModel(), hideRefreshing = true))
         }
     }
 }

@@ -56,8 +56,11 @@ class HomeFragment : Fragment() {
                     is Resource.Loading -> showLoading(true)
                     is Resource.Success -> {
                         it.data?.let { data -> handleResults(data) }
-                        showLoading(false)
+                        if (it.hideRefreshing) {
+                            showLoading(false)
+                        }
                     }
+
                     is Resource.Error -> {
                         showError(it.message)
                         showLoading(false)
